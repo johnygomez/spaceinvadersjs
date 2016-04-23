@@ -1,0 +1,33 @@
+{
+  "name": "space-invaders",
+  "version": "0.0.1",
+  "description": "Classic game Space Invaders in Javascript",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnygomez/spaceinvadersjs.git"
+  },
+  "keywords": [
+    "space",
+    "invaders",
+    "javascript",
+    "game"
+  ],
+  "author": "Jan Gamec",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnygomez/spaceinvadersjs/issues"
+  },
+  "scripts": {
+    "gulp": "./node_modules/.bin/gulp",
+    "build": "./node_modules/.bin/gulp build",
+    "server": "cd dist/ && python3 -m http.server 8000"
+  },
+  "homepage": "https://github.com/johnygomez/spaceinvadersjs#readme",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.1",
+    "gulp-using": "^0.1.0"
+  }
+}

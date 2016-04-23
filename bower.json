@@ -1,0 +1,21 @@
+{
+  "name": "SpaceInvaders",
+  "version": "0.0.1",
+  "homepage": "https://github.com/johnygomez/spaceinvadersjs",
+  "authors": [
+    "gomez <jan.gamec@windowslive.com>"
+  ],
+  "description": "Space Invaders game in Javascript",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": "~0.97.6"
+  }
+}
