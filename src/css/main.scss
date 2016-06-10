@@ -1,4 +1,4 @@
-// @import "variables";
+@import "variables";
 // @import "../../bower_components/materialize/sass/materialize";
 @import "mixins";
 
@@ -6,6 +6,23 @@ body {
   padding: 5em;
 }
 
-.gameboard {
-  background-color: black;
+#gameboard {
+  position: relative;
+
+  // @include transform(scale(1.5));
+  // @include transform-origin; 
+
+  & > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;  
+  }
+
+  #bg-canvas {
+    z-index: -1;
+  }
+
+  #main-canvas {
+    z-index: 1;
+  }
 }

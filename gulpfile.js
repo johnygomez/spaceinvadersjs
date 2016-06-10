@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass')
 var using = require('gulp-using');
 
+
 gulp.task('styles', function() {
   return gulp.src(['src/css/**/main.scss'])
     .pipe(using({
@@ -37,11 +38,6 @@ gulp.task('static', function() {
     .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('scripts', function() {
-  return gulp.src(['src/js/*.js'])
-    .pipe(gulp.dest('dist/js'));
-});
-
 gulp.task('html', function() {
   return gulp.src('src/index.html')
     .pipe(gulp.dest('dist/'));
@@ -49,10 +45,7 @@ gulp.task('html', function() {
 
 gulp.task('3rd', function() {
   return gulp.src([
-      'bower_components/materialize/dist/js/materialize.min.js',
-      'bower_components/mixitup/build/jquery.mixitup.min.js',
-      'bower_components/nicescroll/dist/jquery.nicescroll.min.js',
-      'bower_components/wow/dist/wow.min.js',
+      'bower_components/materialize/dist/js/materialize.min.js'
     ]).pipe(concat('3rd.js'))
     .pipe(gulp.dest('dist/js'));
 });
@@ -64,10 +57,9 @@ gulp.task('watch', function() {
   gulp.watch('src/static/*', ['static']);
   gulp.watch('src/index.html', ['html']);
   gulp.watch('src/css/*.scss', ['styles']);
-  gulp.watch('src/js/*.js', ['scripts']);
 });
 
-gulp.task('build', ['html', 'styles', 'static', 'scripts', '3rd'], function() {
+gulp.task('build', ['html', 'styles', 'static', '3rd'], function() {
   console.log('Building project!');
 });
 

@@ -1,0 +1,28 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Pouch DB or sqlite3
+/db
+
+# compiled output
+tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
+# vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
