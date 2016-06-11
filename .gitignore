@@ -1,10 +1,5 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-dist/*
-
-# Pouch DB or sqlite3
-/db
-
 # compiled output
+/dist
 tmp
 
 # dependencies
