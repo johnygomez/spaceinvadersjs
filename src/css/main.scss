@@ -1,12 +1,53 @@
 @import "variables";
-// @import "../../bower_components/materialize/sass/materialize";
+@import "../../bower_components/materialize/sass/materialize";
+@import "../../bower_components/materialize/sass/components/_color.scss";
 @import "mixins";
 
-body {
-  padding: 5em;
+html, body {
+  height: 100%;
+}
+
+#invader {
+  margin: 15px 7px;
+  line-height: 64px;
+  fill: white;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  @include transition(all .25s ease);
+
+  &:hover {
+    @include transform-origin(50%, 50%); 
+    @include transform(scale(1.5));
+    fill: color("blue-grey", "lighten-4");
+  }
+
+  @media #{$small-and-down} {
+    display: none;
+  }
+}
+
+#main-container {
+  position: relative;
+  height: calc(100% - 154px);
+  overflow: hidden;
+
+  #bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+}
+
+.valign-wrapper {
+  height: 100%;
 }
 
 #gameboard {
+  margin: auto;
+  height: 400px;
+  width: 300px;
   position: relative;
 
   // @include transform(scale(1.5));
@@ -18,11 +59,42 @@ body {
     left: 0;  
   }
 
-  #bg-canvas {
-    z-index: -1;
-  }
-
   #main-canvas {
     z-index: 1;
+  }
+}
+
+#scoreboard {
+  counter-reset: scores;
+
+  li {
+    position: relative;
+    padding-left: 50px;
+
+    &::before {
+      counter-increment: scores;
+      content: counter(scores);
+
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      margin-top: -15px;
+      width: 30px;
+      height: 30px;
+
+      font-size: 20px;
+      line-height: 30px;
+      text-align: center;
+  
+      color: white;
+      background-color: #ccc;
+      border-radius: 50%;
+    }
+  }
+}
+
+footer {
+  @media screen and (min-width: $small-screen-up) {
+    margin-top: 0 !important;
   }
 }

@@ -1,7 +1,8 @@
-export default class Star {
+import Obj from './Obj';
+
+export default class Star extends Obj {
   constructor(x, y, size, velocity) {
-    this.x = x;
-    this.y = y; 
+    super(x, y);
     this.size = size;
     this.velocity = velocity;
   }

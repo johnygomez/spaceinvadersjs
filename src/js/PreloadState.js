@@ -1,23 +1,24 @@
 import State from './State';
+import PlayState from './PlayState';
 
 export default class PreloadState extends State {
-  constructor(game, ctx) {
+  constructor(game, ctx, level = 1) {
     super(game, ctx);
     this.countDown = 3;
-    this.level = 1;
+    this.level = level;
   }
 
   draw() {
     //  Clear the background.
     this.ctx.clearRect(0, 0, this.game.width, this.game.height);
 
-    this.ctx.font = "30px Arial";
+    this.ctx.font = '30px Arial';
     this.ctx.fillStyle = '#ffffff';
-    this.ctx.textBaseline = "middle";
-    this.ctx.textAlign = "center";
-    this.ctx.fillText("Level " + this.level.toString(), this.game.width / 2, this.game.height / 2 - 40);
-    this.ctx.font = "24px Arial";
-    this.ctx.fillText("Ready in " + this.countDown.toString(), this.game.width / 2, this.game.height / 2);
+    this.ctx.textBaseline = 'middle';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('Level ' + this.level.toString(), this.game.width / 2, this.game.height / 2 - 40);
+    this.ctx.font = '24px Arial';
+    this.ctx.fillText('Ready in ' + this.countDown.toString(), this.game.width / 2, this.game.height / 2);
   }
 
   enter() {
@@ -30,7 +31,8 @@ export default class PreloadState extends State {
 
     if (this.intervalID && this.countDown <= 0) {
       clearInterval(this.intervalID);
-      // play
+      this.game.state = new PlayState(this.game, this.ctx, this.level);
+      return;
     }
 
     this.draw();

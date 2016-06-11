@@ -5,37 +5,38 @@ var using = require('gulp-using');
 
 
 gulp.task('styles', function() {
-  return gulp.src(['src/css/**/main.scss'])
+  return gulp.src(['src/css/main.scss'])
     .pipe(using({
         prefix: 'Processing sass file'
       }))
-    .pipe(sass())
-    .on('error', function(err) {
-      console.log(err.message);
-      this.emit('end');
-    })
+    .pipe(sass().on('error', sass.logError))
     .pipe(concat('style.css'))
     .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('static', function() {
+  gulp.src(['src/offline.manifest'])
+    .pipe(gulp.dest('dist'));
+
   gulp.src(['src/images/**/*'])
     .pipe(gulp.dest('dist/images'));
 
   gulp.src(['src/static/**/*'])
     .pipe(gulp.dest('dist/static'));
 
-  gulp.src(['src/fonts/**/*'])
-    .pipe(gulp.dest('dist/fonts'));
+  gulp.src(['src/font/**/*'])
+    .pipe(gulp.dest('dist/font'));
 
   gulp.src(['src/audio/**/*'])
     .pipe(gulp.dest('dist/audio'));
 
-  gulp.src(['bower_components/materialize/dist/css/materialize.min.css'])
+  gulp.src(['bower_components/materialize/sass/materialize.scss'])
+    .pipe(sass().on('error', sass.logError))
+    .pipe(concat('materialize.css'))
     .pipe(gulp.dest('dist/css'));
 
   gulp.src(['bower_components/materialize/dist/font/**/*'])
-    .pipe(gulp.dest('dist/fonts'));
+    .pipe(gulp.dest('dist/font'));
 });
 
 gulp.task('html', function() {
@@ -45,6 +46,8 @@ gulp.task('html', function() {
 
 gulp.task('3rd', function() {
   return gulp.src([
+      'bower_components/snap/bower_components/snap.svg/dist/snap.svg-min.js',
+      'bower_components/jquery/dist/jquery.min.js',
       'bower_components/materialize/dist/js/materialize.min.js'
     ]).pipe(concat('3rd.js'))
     .pipe(gulp.dest('dist/js'));

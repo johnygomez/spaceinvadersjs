@@ -27,6 +27,7 @@
     "browserify": "browserify ./src/js/app.js -t babelify > ./dist/js/app.js",
     "clean": "rm -rf dist/",
     "mkdist": "mkdir -p dist/",
+    "watch:lint": "eslint src/js/*",
     "watch:js": "watchify src/js/app.js -t babelify -o dist/js/app.js -v",
     "watch:gulp": "gulp watch",
     "watch": "npm-run-all --parallel watch:*"
@@ -40,9 +41,11 @@
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
+    "eslint": "^2.12.0",
     "gulp": "^3.9.1",
     "gulp-sass": "^2.3.1",
     "gulp-using": "^0.1.0",
+    "node-sass": "^3.7.0",
     "npm-run-all": "^2.1.1",
     "watchify": "^3.7.0"
   }
