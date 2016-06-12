@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "materialize": "~0.97.6",
-    "snap.svg": "~0.4.1"
+    "snap.svg": "~0.4.1",
+    "mediaelement": "~2.21.1"
   }
 }

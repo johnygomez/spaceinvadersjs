@@ -26,13 +26,25 @@ export default class PlayState extends State {
     this.dt = 1 / this.game.config.fps;
     this.level = level;
 
-    this.popSound = new Audio('/audio/pop.mp3');
-    this.explodeSound = new Audio('/audio/explode1.mp3');
+    this.popSound = new Audio('/audio/invaderkilled.wav');
+    this.explodeSound = new Audio('/audio/explosion.wav');
+    this.shootSound = new Audio('/audio/shoot.wav');
     this.renderer = new Renderer(this.update.bind(this));
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.game.width, this.game.height);
+
+    // Draw score
+    this.ctx.font='12px Arial';
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.textBaseline='top';
+    this.ctx.textAlign='left';
+    this.ctx.fillText('Score: ' + this.game.score, 5, 0);
+
+    this.ctx.textBaseline='top';
+    this.ctx.textAlign='right';
+    this.ctx.fillText('Lives: ' + this.game.lives, this.game.width - 5, 0);
 
     //  Draw ship.
     this.ctx.fillStyle = '#999999';
@@ -105,6 +117,8 @@ export default class PlayState extends State {
     if (this.lastRocketTime === null || ((new Date()).valueOf() - this.lastRocketTime) > (1000 / this.game.config.rocketMaxFireRate)) {
       this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.game.config.rocketVelocity));
       this.lastRocketTime = (new Date()).valueOf();
+      this.shootSound.currentTime = 0;
+      this.shootSound.play();
     }
   }
 
@@ -235,7 +249,7 @@ export default class PlayState extends State {
           this.rockets.splice(j--, 1);
           bang = true;
           this.game.score += this.game.config.pointsPerInvader;
-          this.popSound.pause();
+          // this.popSound.pause();
           this.popSound.currentTime = 0;
           this.popSound.play();
           break;

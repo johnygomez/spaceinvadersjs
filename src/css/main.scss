@@ -1,6 +1,7 @@
 @import "variables";
 @import "../../bower_components/materialize/sass/materialize";
 @import "../../bower_components/materialize/sass/components/_color.scss";
+@import "rules";
 @import "mixins";
 
 html, body {
@@ -90,6 +91,12 @@ html, body {
       background-color: #ccc;
       border-radius: 50%;
     }
+  }
+}
+
+#rules {
+  .modal-content {
+    overflow-x: hidden;
   }
 }
 

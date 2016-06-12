@@ -11,7 +11,7 @@ export default {
   rocketVelocity: 120,
   rocketMaxFireRate: 2,
   debugMode: false,
-  invaderRanks: 5,
+  invaderRanks: 1,
   invaderFiles: 10,
   shipSpeed: 120,
   levelDifficultyMultiplier: 0.2,

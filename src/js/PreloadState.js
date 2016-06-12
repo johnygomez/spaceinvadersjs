@@ -5,6 +5,7 @@ export default class PreloadState extends State {
   constructor(game, ctx, level = 1) {
     super(game, ctx);
     this.countDown = 3;
+    this.game.level = level;
     this.level = level;
   }
 
