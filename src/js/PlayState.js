@@ -26,9 +26,9 @@ export default class PlayState extends State {
     this.dt = 1 / this.game.config.fps;
     this.level = level;
 
-    this.popSound = new Audio('/audio/invaderkilled.wav');
-    this.explodeSound = new Audio('/audio/explosion.wav');
-    this.shootSound = new Audio('/audio/shoot.wav');
+    this.popSound = new Audio('audio/invaderkilled.wav');
+    this.explodeSound = new Audio('audio/explosion.wav');
+    this.shootSound = new Audio('audio/shoot.wav');
     this.renderer = new Renderer(this.update.bind(this));
   }
 
