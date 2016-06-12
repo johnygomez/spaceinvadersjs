@@ -102,12 +102,8 @@ export default class Game {
 
   keyUp(keyCode) {
     // delete key from pressedKeys set when button is released
-    if (Reflect) {
-      Reflect.deleteProperty(this.pressedKeys, keyCode);
-    } else {
-      delete this.pressedKeys.keyCode;
-    }
-
+    delete this.pressedKeys.keyCode;
+    
     if (this.state && this.state.keyUp) {
       this.state.keyUp(keyCode);
     }

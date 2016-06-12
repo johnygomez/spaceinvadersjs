@@ -170,6 +170,7 @@ export default class PlayState extends State {
       this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.game.config.rocketVelocity));
       this.lastRocketTime = (new Date()).valueOf();
       // play shoot sound
+      this.shootSound.pause();
       this.shootSound.currentTime = 0;
       this.shootSound.play();
     }
@@ -321,7 +322,7 @@ export default class PlayState extends State {
           bang = true;
           // Add score for successfull shot
           this.game.score += this.game.config.pointsPerInvader;
-          // this.popSound.pause();
+          this.popSound.pause();
           this.popSound.currentTime = 0;
           this.popSound.play();
           break;
