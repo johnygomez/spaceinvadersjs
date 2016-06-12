@@ -8,6 +8,7 @@ html, body {
   height: 100%;
 }
 
+// Invader SVG logo
 #invader {
   margin: 15px 7px;
   line-height: 64px;
@@ -17,6 +18,7 @@ html, body {
   cursor: pointer;
   @include transition(all .25s ease);
 
+  // Scale on hover
   &:hover {
     @include transform-origin(50%, 50%); 
     @include transform(scale(1.5));
@@ -28,6 +30,7 @@ html, body {
   }
 }
 
+// Main container with animated bg fills the space between navbar and footer
 #main-container {
   position: relative;
   height: calc(100% - 154px);
@@ -41,10 +44,12 @@ html, body {
   }
 }
 
+// for verical centering
 .valign-wrapper {
   height: 100%;
 }
 
+// Gameboard settings
 #gameboard {
   margin: auto;
   height: 400px;
@@ -65,7 +70,9 @@ html, body {
   }
 }
 
+// Highscores collection
 #scoreboard {
+  // Highscore records numbering
   counter-reset: scores;
 
   li {
@@ -73,6 +80,7 @@ html, body {
     padding-left: 50px;
 
     &::before {
+      // Highscore position as avatar of each record
       counter-increment: scores;
       content: counter(scores);
 
@@ -94,6 +102,7 @@ html, body {
   }
 }
 
+// Disable overflowing of transformed 3D text
 #rules {
   .modal-content {
     overflow-x: hidden;

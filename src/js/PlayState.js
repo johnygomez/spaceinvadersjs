@@ -8,7 +8,9 @@ import Ship from './Ship';
 import GameOverState from './GameOverState';
 import PreloadState from './PreloadState';
 
+// Gameplay state
 export default class PlayState extends State {
+  // Param level - represents current game level
   constructor(game, ctx, level) {
     super(game, ctx);
 
@@ -26,6 +28,7 @@ export default class PlayState extends State {
     this.dt = 1 / this.game.config.fps;
     this.level = level;
 
+    // Audio tracks
     this.popSound = new Audio('audio/invaderkilled.wav');
     this.explodeSound = new Audio('audio/explosion.wav');
     this.shootSound = new Audio('audio/shoot.wav');
@@ -73,9 +76,11 @@ export default class PlayState extends State {
   }
 
   enter() {
+    // Create ship and initialize the level settings and populate invaders
     this.ship = new Ship(this.game.width / 2, this.game.boundaries.bottom);
     this.initLevel();
     this.createInvaders();
+    // Start updating
     this.renderer.redraw();
   }
 
@@ -85,8 +90,10 @@ export default class PlayState extends State {
   }
 
   initLevel() {
+    // Adjust game difficulty based on current level
     const levelMultiplier = this.level * this.game.config.levelDifficultyMultiplier;
     this.shipSpeed = this.game.config.shipSpeed;
+    // Increase invader speed, bomb rate, and bomb speed
     this.invaderInitialVelocity = this.game.config.invaderInitialVelocity + (levelMultiplier * this.game.config.invaderInitialVelocity);
     this.bombRate = this.game.config.bombRate + (levelMultiplier * this.game.config.bombRate);
     this.bombMinVelocity = this.game.config.bombMinVelocity + (levelMultiplier * this.game.config.bombMinVelocity);
@@ -98,6 +105,7 @@ export default class PlayState extends State {
     const files = this.game.config.invaderFiles;
 
     const invaders = [];
+    // for each col and row create invader
     for (let rank = 0; rank < ranks; rank++) {
       for (let file = 0; file < files; file++) {
         invaders.push(new Invader(
@@ -114,15 +122,19 @@ export default class PlayState extends State {
   }
 
   fireRocket() {
+    // Limit firing the rocket to min. interval based on config
+    // e.g. (1000 / this.game.config.rocketMaxFireRate = 2) means 2 rockets per second
     if (this.lastRocketTime === null || ((new Date()).valueOf() - this.lastRocketTime) > (1000 / this.game.config.rocketMaxFireRate)) {
       this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.game.config.rocketVelocity));
       this.lastRocketTime = (new Date()).valueOf();
+      // play shoot sound
       this.shootSound.currentTime = 0;
       this.shootSound.play();
     }
   }
 
   update() {
+    // Update ship position based on players keyboard input
     if (this.game.pressedKeys[37]) {
       this.ship.x -= this.shipSpeed * this.dt;
     }
@@ -131,10 +143,12 @@ export default class PlayState extends State {
       this.ship.x += this.shipSpeed * this.dt;
     }
 
+    // Shoot rockets
     if (this.game.pressedKeys[32]) {
       this.fireRocket();
     }
 
+    // Limit ship movement to game boundaries
     if (this.ship.x < this.game.boundaries.left) {
       this.ship.x = this.game.boundaries.left;
     }
@@ -142,17 +156,20 @@ export default class PlayState extends State {
       this.ship.x = this.game.boundaries.right;
     }
 
+    // Update game entities state
     this.updateBombs();
     this.updateRockets();
     this.updateInvaders();
     this.detectCollisions();
 
+    // If no remaining lives => GAME OVER
     if (this.game.lives <= 0) {
       this.explodeSound.play();
       this.game.state = new GameOverState(this.game, this.ctx);
       return;
     }
 
+    // If no invaders left => next level
     if (this.invaders.length === 0) {
       this.game.score += this.level * 50;
       this.game.level += 1;
@@ -164,6 +181,7 @@ export default class PlayState extends State {
     this.draw();
   }
 
+  // Update bombs positions according to their velocity
   updateBombs() {
     for (let i = 0; i < this.bombs.length; i++) {
       const bomb = this.bombs[i];
@@ -175,6 +193,7 @@ export default class PlayState extends State {
     }
   }
 
+  // Update rockets position
   updateRockets() {
     for (let i = 0; i < this.rockets.length; i++) {
       const rocket = this.rockets[i];
@@ -186,14 +205,17 @@ export default class PlayState extends State {
     }
   }
 
+  // Update invaders positions
   updateInvaders() {
     let hitLeft = false;
     let hitRight = false;
     let hitBottom = false;
     for (let i = 0; i < this.invaders.length; i++) {
       const invader = this.invaders[i];
+      // calculate new position
       const newx = invader.x + this.invaderVelocity.x * this.dt;
       const newy = invader.y + this.invaderVelocity.y * this.dt;
+      // if invaders on the left/right hits the wall, change velocity
       if (hitLeft === false && newx < this.game.boundaries.left) {
         hitLeft = true;
       } else if (hitRight === false && newx > this.game.boundaries.right) {
@@ -208,6 +230,7 @@ export default class PlayState extends State {
       }
     }
 
+    // Update velocities
     if (this.invadersAreDropping) {
       this.invaderCurrentDropDistance += this.invaderVelocity.y * this.dt;
       if (this.invaderCurrentDropDistance >= this.game.config.invaderDropDistance) {
@@ -217,6 +240,7 @@ export default class PlayState extends State {
       }
     }
 
+    // If hit the left wall, change movement to the right and get down one level
     if (hitLeft) {
       this.invaderCurrentVelocity += this.game.config.invaderAcceleration;
       this.invaderVelocity = { x: 0, y: this.invaderCurrentVelocity };
@@ -224,6 +248,7 @@ export default class PlayState extends State {
       this.invaderNextVelocity = { x: this.invaderCurrentVelocity, y: 0 };
     }
 
+    // If hit the right wall, change movement to the left
     if (hitRight) {
       this.invaderCurrentVelocity += this.game.config.invaderAcceleration;
       this.invaderVelocity = { x: 0, y: this.invaderCurrentVelocity };
@@ -231,23 +256,28 @@ export default class PlayState extends State {
       this.invaderNextVelocity = { x: -this.invaderCurrentVelocity, y: 0 };
     }
 
+    // If invader touch the bottom, game is lost
     if (hitBottom) {
       this.lives = 0;
     }
   }
 
+  // Detect collisions of all objects
   detectCollisions() {
+    // Invader - Rockets 
     for (let i = 0; i < this.invaders.length; i++) {
       const invader = this.invaders[i];
       let bang = false;
 
       for (let j = 0; j < this.rockets.length; j++) {
         const rocket = this.rockets[j];
-
+        // If invader collides with rocket, destroy them both
         if (rocket.x >= (invader.x - invader.width / 2) && rocket.x <= (invader.x + invader.width / 2) &&
           rocket.y >= (invader.y - invader.height / 2) && rocket.y <= (invader.y + invader.height / 2)) {
+          // remove rocket
           this.rockets.splice(j--, 1);
           bang = true;
+          // Add score for successfull shot
           this.game.score += this.game.config.pointsPerInvader;
           // this.popSound.pause();
           this.popSound.currentTime = 0;
@@ -256,12 +286,14 @@ export default class PlayState extends State {
         }
       }
       if (bang) {
+        // remove invader
         this.invaders.splice(i--, 1);
       }
     }
-
+    // Bombs - Ship collision
     for (let i = 0; i < this.bombs.length; i++) {
       const bomb = this.bombs[i];
+      // If bombs hits the ship, decrese the number of lives left
       if (bomb.x >= (this.ship.x - this.ship.width / 2) && bomb.x <= (this.ship.x + this.ship.width / 2) &&
         bomb.y >= (this.ship.y - this.ship.height / 2) && bomb.y <= (this.ship.y + this.ship.height / 2)) {
         this.bombs.splice(i--, 1);
@@ -269,8 +301,10 @@ export default class PlayState extends State {
       }
     }
 
+    // Invaders - Ship collision
     for (let i = 0; i < this.invaders.length; i++) {
       const invader = this.invaders[i];
+      // If any invader hits the ship, the game is lost
       if ((invader.x + invader.width / 2) > (this.ship.x - this.ship.width / 2) &&
         (invader.x - invader.width / 2) < (this.ship.x + this.ship.width / 2) &&
         (invader.y + invader.height / 2) > (this.ship.y - this.ship.height / 2) &&
@@ -299,7 +333,6 @@ export default class PlayState extends State {
       if (!invader) continue;
       const chance = this.bombRate * this.dt;
       if (chance > Math.random()) {
-        //  Fire!
         this.bombs.push(new Bomb(invader.x, invader.y + invader.height / 2,
           this.bombMinVelocity + Math.random() * (this.bombMaxVelocity - this.bombMinVelocity)));
       }

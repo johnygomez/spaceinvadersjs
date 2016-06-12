@@ -1,6 +1,8 @@
 import State from './State';
 import PlayState from './PlayState';
 
+// Level preloader state
+// Contains Level info and countdown
 export default class PreloadState extends State {
   constructor(game, ctx, level = 1) {
     super(game, ctx);
@@ -24,12 +26,14 @@ export default class PreloadState extends State {
 
   enter() {
     this.draw();
+    // Update countdown every second
     this.intervalID = setInterval(this.update.bind(this), 1000);
   }
 
   update() {
     this.countDown--;
 
+    // when counter == 0, go to gameplay state
     if (this.intervalID && this.countDown <= 0) {
       clearInterval(this.intervalID);
       this.game.state = new PlayState(this.game, this.ctx, this.level);

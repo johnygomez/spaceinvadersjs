@@ -2,11 +2,34 @@ import Background from './Background';
 import Game from './Game';
 import Highscore from './Highscore';
 
+// X-browser compatibility for page visibility API
+let hidden, state, visibilityChange;
+if (typeof document.hidden !== "undefined") {
+  hidden = "hidden";
+  visibilityChange = "visibilitychange";
+  state = "visibilityState";
+} else if (typeof document.mozHidden !== "undefined") {
+  hidden = "mozHidden";
+  visibilityChange = "mozvisibilitychange";
+  state = "mozVisibilityState";
+} else if (typeof document.msHidden !== "undefined") {
+  hidden = "msHidden";
+  visibilityChange = "msvisibilitychange";
+  state = "msVisibilityState";
+} else if (typeof document.webkitHidden !== "undefined") {
+  hidden = "webkitHidden";
+  visibilityChange = "webkitvisibilitychange";
+  state = "webkitVisibilityState";
+}
+
+
+// Display the scoreboard
 function showScores() {
   const highscore = new Highscore();
   const scoreboard = document.querySelector('#scoreboard');
   scoreboard.innerHTML = '';
   highscore.ranking.forEach((rank) => {
+    // for each record in highscores display an element in scoreboard list
     const li = document.createElement('li');
     const name = document.createElement('span');
     const info = document.createElement('p')
@@ -29,7 +52,7 @@ window.onload = function() {
       e.stopPropagation();
       return;
     }
-
+    // page navigation using Histori API
     if (next === 'rules') {
       e.preventDefault();
       e.stopPropagation();
@@ -45,13 +68,26 @@ window.onload = function() {
 
   });
 
+  // initialize animated background ang game engine
   const container = document.querySelector('#main-container');
   const bg = new Background('main-container', container.offsetWidth, container.offsetHeight);
   const game = new Game('gameboard');
   bg.start();
   game.play();
+
+  // pause the game (and bg) when tab is not active
+  document.addEventListener(visibilityChange, (e) => {
+    if (document.visibilityState === hidden) {
+      game.pause();
+      bg.renderer.pause();
+    } else {
+      game.resume();
+      bg.renderer.unpause();
+    }
+  }, false);
 }
 
+// Handling of back button click in browser
 window.onpopstate = function(e) {
   if (e.state === 'rules') {
     $('#rules').openModal();
@@ -60,7 +96,7 @@ window.onpopstate = function(e) {
   }
 }
 
-// Detect online status and visually disable the subsection navigation
+// Detect online status and visually enable/disable the subsection navigation
 window.addEventListener('online', () => {
   const navLinks = document.querySelectorAll('nav li a');
   navLinks.forEach((el) => {

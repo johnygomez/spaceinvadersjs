@@ -1,6 +1,8 @@
 import State from './State';
 import PreloadState from './PreloadState';
 
+// Game over state
+// When entered, asks user to record his highscore using form
 export default class GameOverState extends State {
   draw() {
     this.ctx.clearRect(0, 0, this.game.width, this.game.height);
@@ -15,11 +17,14 @@ export default class GameOverState extends State {
 
   enter() {
     this.draw();
+    // Open highscore form
     $('#score-form').openModal();
+    // Autofocus on the first field
     $('#name').focus();
     $('#save-score').click((e) => {
       const email = $('#email');
       const name = $('#name');
+      // form validation
       validate_field(email);
 
       // basic validation
@@ -34,6 +39,7 @@ export default class GameOverState extends State {
     });
   }
 
+  // Restart the game with 'ENTER' key
   keyDown(keyCode) {
     if (keyCode === 13) {
         this.game.lives = 3;

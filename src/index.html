@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html manifest="offline.manifest">
 
 <head>
   <title>Space Invaders</title>
@@ -16,6 +16,7 @@
   <nav id="menu">
     <div class="nav-wrapper">
       <div class="brand-logo left">
+      <!-- SVG LOGO OF INVADER -->
         <svg xmlns="http://www.w3.org/2000/svg" id="invader" viewBox="0 0 350 257">
           <g id="hsi">
             <path d="M0 127h176v65H0z" />
@@ -29,9 +30,11 @@
             <path d="M63 63h112v33H63z" />
           </g>
           <use xlink:href="#hsi" transform="translate(350, 0) scale(-1, 1)"></use>
-        </svg>
+        </svg> 
+        <!-- SVG ANIMATED TITLE -->
         <svg height="64" width="350" id="logo-text"></svg>
       </div>
+      <!-- NAVIGATION -->
       <ul class="right hide-on-med-and-down">
         <li><a href="#!" data-target="rules">How To</a></li>
         <li><a href="#!" data-target="hs">Highscores</a></li>
@@ -43,12 +46,14 @@
       <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">reorder</i></a>
     </div>
   </nav>
+  <!-- GAME CONTAINER -->
   <div id="main-container">
     <div class="valign-wrapper">
       <div class="valign" id="gameboard">
       </div>
     </div>
   </div>
+  <!-- FOOTER WITH AUTHOR INFO -->
   <footer class="page-footer" itemscope itemtype="http://schema.org/Person">
     <div class="container">
       <div class="row">
@@ -71,6 +76,7 @@
       </div>
     </div>
   </footer>
+  <!-- Highscores modal window -->
   <div id="highscores" class="modal modal">
     <div class="modal-content">
       <h4>Highscores</h4>
@@ -81,6 +87,7 @@
       <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
+  <!-- HOW TO section modal window -->
   <div id="rules" class="modal modal-fixed-footer">
     <div class="modal-content">
       <h4>Main Principles</h4>
@@ -99,6 +106,7 @@
         </div>
       </div>
       <div class="tutorial hide-on-small-and-down">
+        <!-- HTML5 VIDEO from youtube.. just because of semestral assignment -->
         <video width="640" height="360" id="player1" preload="none">
           <source type="video/youtube" src="https://www.youtube.com/watch?v=hm55tQeOXQU" />
           Your browser does not support the video tag.
@@ -109,6 +117,7 @@
       <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
+  <!-- RECORD HIGHSCORE modal with input form -->
   <div id="score-form" class="modal">
     <div class="modal-content">
       <h4>Record Highscore</h4>
@@ -142,7 +151,7 @@
   // initialize youtube video in video element
   $('video,audio').mediaelementplayer();
 
-  // Logo text written with SVG
+  // Logo text written with SVG animation
   $('#invader').click(function() {
     const s = Snap('#logo-text');
     const text = 'Space Invaders'

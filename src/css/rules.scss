@@ -1,5 +1,7 @@
 @import "mixins";
 
+// Long time ago...
+// fade-out
 p#start
 {
   position: relative;
@@ -19,6 +21,8 @@ p#start
   100% { opacity: 0; }
 }
 
+// game title 
+// shrink down
 h1
 {
   position: absolute;
@@ -51,8 +55,7 @@ h1 sub
   100% { @include transform(scale(0.1)); opacity: 0; }
 }
 
-
-/* the interesting 3D scrolling stuff */
+// Star wars 3D animated text
 #titles
 {
   position: absolute;
@@ -97,6 +100,7 @@ h1 sub
   text-decoration: underline;
 }
 
+// scroll text up
 #titlecontent
 {
   position: absolute;

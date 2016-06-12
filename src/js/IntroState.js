@@ -1,6 +1,7 @@
 import State from './State';
 import PreloadState from './PreloadState';
 
+// Intro state representing Welcome screen
 export default class IntroState extends State {
   draw() {
     this.ctx.clearRect(0, 0, this.game.width, this.game.height);
