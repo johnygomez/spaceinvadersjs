@@ -41,7 +41,7 @@ export default class Background {
   // draw each star on canvas
   update() {
     const ctx = this.canvas.getContext('2d');
-    ctx.fillStyle = '#000017';
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, this.width, this.height);
 
     ctx.fillStyle = '#ffffff';
