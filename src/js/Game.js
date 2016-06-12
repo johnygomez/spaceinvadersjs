@@ -103,7 +103,7 @@ export default class Game {
   keyUp(keyCode) {
     // delete key from pressedKeys set when button is released
     delete this.pressedKeys.keyCode;
-    
+
     if (this.state && this.state.keyUp) {
       this.state.keyUp(keyCode);
     }
