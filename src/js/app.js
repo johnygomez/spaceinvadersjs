@@ -3,23 +3,20 @@ import Game from './Game';
 import Highscore from './Highscore';
 
 // X-browser compatibility for page visibility API
-let hidden, state, visibilityChange;
-if (typeof document.hidden !== "undefined") {
-  hidden = "hidden";
-  visibilityChange = "visibilitychange";
-  state = "visibilityState";
-} else if (typeof document.mozHidden !== "undefined") {
-  hidden = "mozHidden";
-  visibilityChange = "mozvisibilitychange";
-  state = "mozVisibilityState";
-} else if (typeof document.msHidden !== "undefined") {
-  hidden = "msHidden";
-  visibilityChange = "msvisibilitychange";
-  state = "msVisibilityState";
-} else if (typeof document.webkitHidden !== "undefined") {
-  hidden = "webkitHidden";
-  visibilityChange = "webkitvisibilitychange";
-  state = "webkitVisibilityState";
+let hidden = null;
+let visibilityChange = null;
+if (typeof document.hidden !== 'undefined') {
+  hidden = 'hidden';
+  visibilityChange = 'visibilitychange';
+} else if (typeof document.mozHidden !== 'undefined') {
+  hidden = 'mozHidden';
+  visibilityChange = 'mozvisibilitychange';
+} else if (typeof document.msHidden !== 'undefined') {
+  hidden = 'msHidden';
+  visibilityChange = 'msvisibilitychange';
+} else if (typeof document.webkitHidden !== 'undefined') {
+  hidden = 'webkitHidden';
+  visibilityChange = 'webkitvisibilitychange';
 }
 
 
@@ -76,7 +73,7 @@ window.onload = function() {
   game.play();
 
   // pause the game (and bg) when tab is not active
-  document.addEventListener(visibilityChange, (e) => {
+  document.addEventListener(visibilityChange, () => {
     if (document.visibilityState === hidden) {
       game.pause();
       bg.renderer.pause();

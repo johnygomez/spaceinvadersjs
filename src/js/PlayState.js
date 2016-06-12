@@ -264,7 +264,7 @@ export default class PlayState extends State {
 
   // Detect collisions of all objects
   detectCollisions() {
-    // Invader - Rockets 
+    // Invader - Rockets
     for (let i = 0; i < this.invaders.length; i++) {
       const invader = this.invaders[i];
       let bang = false;
