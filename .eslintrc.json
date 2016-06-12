@@ -197,7 +197,7 @@
         "padded-blocks": "off",
         "prefer-arrow-callback": "off",
         "prefer-const": "warn",
-        "prefer-reflect": "warn",
+        "prefer-reflect": "off",
         "prefer-rest-params": "warn",
         "prefer-spread": "warn",
         "prefer-template": "off",
