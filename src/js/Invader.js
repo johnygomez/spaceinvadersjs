@@ -12,5 +12,11 @@ export default class Invader extends Obj {
     this.type = type;
     this.width = 18;
     this.height = 14;
+    this.gfx = {
+      posX: 55,
+      posY: 27,
+      height: 35,
+      width: 55
+    }
   }
 }

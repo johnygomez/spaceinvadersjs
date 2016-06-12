@@ -39,39 +39,65 @@ export default class PlayState extends State {
     this.ctx.clearRect(0, 0, this.game.width, this.game.height);
 
     // Draw score
-    this.ctx.font='12px Arial';
+    this.ctx.font = '12px Arial';
     this.ctx.fillStyle = '#ffffff';
-    this.ctx.textBaseline='top';
-    this.ctx.textAlign='left';
+    this.ctx.textBaseline = 'top';
+    this.ctx.textAlign = 'left';
     this.ctx.fillText('Score: ' + this.game.score, 5, 0);
 
-    this.ctx.textBaseline='top';
-    this.ctx.textAlign='right';
+    this.ctx.textBaseline = 'top';
+    this.ctx.textAlign = 'right';
     this.ctx.fillText('Lives: ' + this.game.lives, this.game.width - 5, 0);
 
     //  Draw ship.
-    this.ctx.fillStyle = '#999999';
-    this.ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+    if (this.shipImg) {
+      this.ctx.drawImage(this.shipImg, this.ship.gfx.posX, this.ship.gfx.posY, this.ship.width, this.ship.height, this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+    } else {
+      this.ctx.fillStyle = '#999999';
+      this.ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+    }
 
     //  Draw invaders.
-    this.ctx.fillStyle = '#006600';
-    for (let i = 0; i < this.invaders.length; i++) {
-      const invader = this.invaders[i];
-      this.ctx.fillRect(invader.x - invader.width / 2, invader.y - invader.height / 2, invader.width, invader.height);
+    if (this.invaderImg) {
+      for (let i = 0; i < this.invaders.length; i++) {
+        const invader = this.invaders[i];
+        this.ctx.drawImage(this.invaderImg, invader.gfx.posX, invader.gfx.posY, invader.gfx.width, invader.gfx.height, invader.x - (invader.width / 2), invader.y - (invader.height / 2), invader.width, invader.height);
+      }
+    } else {
+      this.ctx.fillStyle = '#006600';
+      for (let i = 0; i < this.invaders.length; i++) {
+        const invader = this.invaders[i];
+        this.ctx.fillRect(invader.x - invader.width / 2, invader.y - invader.height / 2, invader.width, invader.height);
+      }
     }
 
     //  Draw bombs.
-    this.ctx.fillStyle = '#ff5555';
-    for (let i = 0; i < this.bombs.length; i++) {
-      const bomb = this.bombs[i];
-      this.ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+    if (this.bombImg) {
+      for (let i = 0; i < this.bombs.length; i++) {
+        const bomb = this.bombs[i];
+        this.ctx.drawImage(this.bombImg, bomb.gfx.posX, bomb.gfx.posY, bomb.gfx.width, bomb.gfx.height, bomb.x - (bomb.width / 2), bomb.y - (bomb.height / 2), bomb.width, bomb.height);
+      }
+    } else {
+      this.ctx.fillStyle = '#ff5555';
+      for (let i = 0; i < this.bombs.length; i++) {
+        const bomb = this.bombs[i];
+        this.ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+      }
     }
 
+
     //  Draw rockets.
-    this.ctx.fillStyle = '#ff0000';
-    for (let i = 0; i < this.rockets.length; i++) {
-      const rocket = this.rockets[i];
-      this.ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+    if (this.rocketImg) {
+      for (let i = 0; i < this.rockets.length; i++) {
+        const rocket = this.rockets[i];
+        this.ctx.drawImage(this.rocketImg, rocket.gfx.posX, rocket.gfx.posY, rocket.gfx.width, rocket.gfx.height, rocket.x - (rocket.width / 2), rocket.y - (rocket.height / 2), rocket.width, rocket.height);
+      }
+    } else {
+      this.ctx.fillStyle = '#ff0000';
+      for (let i = 0; i < this.rockets.length; i++) {
+        const rocket = this.rockets[i];
+        this.ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+      }
     }
   }
 
@@ -89,7 +115,23 @@ export default class PlayState extends State {
     this.renderer = null;
   }
 
+  // Initialize GFX objects
+  initGFX() {
+    this.shipImg = document.createElement('img');
+    this.shipImg.src = 'images/sprite-transparent.png';
+
+    this.invaderImg = document.createElement('img');
+    this.invaderImg.src = 'images/sprite-transparent.png';
+
+    this.bombImg = document.createElement('img');
+    this.bombImg.src = 'images/sprite-transparent.png';
+
+    this.rocketImg = document.createElement('img');
+    this.rocketImg.src = 'images/sprite-transparent.png';
+  }
+
   initLevel() {
+    this.initGFX();
     // Adjust game difficulty based on current level
     const levelMultiplier = this.level * this.game.config.levelDifficultyMultiplier;
     this.shipSpeed = this.game.config.shipSpeed;
@@ -295,7 +337,7 @@ export default class PlayState extends State {
       const bomb = this.bombs[i];
       // If bombs hits the ship, decrese the number of lives left
       if (bomb.x >= (this.ship.x - this.ship.width / 2) && bomb.x <= (this.ship.x + this.ship.width / 2) &&
-        bomb.y >= (this.ship.y - this.ship.height / 2) && bomb.y <= (this.ship.y + this.ship.height / 2)) {
+        bomb.y >= (this.ship.y) && bomb.y <= (this.ship.y + this.ship.height / 2)) {
         this.bombs.splice(i--, 1);
         this.game.lives--;
       }
@@ -307,7 +349,7 @@ export default class PlayState extends State {
       // If any invader hits the ship, the game is lost
       if ((invader.x + invader.width / 2) > (this.ship.x - this.ship.width / 2) &&
         (invader.x - invader.width / 2) < (this.ship.x + this.ship.width / 2) &&
-        (invader.y + invader.height / 2) > (this.ship.y - this.ship.height / 2) &&
+        (invader.y + invader.height) > (this.ship.y - this.ship.height / 2) &&
         (invader.y - invader.height / 2) < (this.ship.y + this.ship.height / 2)) {
         //  Dead by collision!
         this.game.lives = 0;

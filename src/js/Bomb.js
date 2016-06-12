@@ -6,5 +6,13 @@ export default class Bomb extends Obj {
   constructor(x, y, velocity) {
     super(x, y);
     this.velocity = velocity;
+    this.width = 5;
+    this.height = 5;
+    this.gfx = {
+      posX: 374,
+      posY: 306,
+      height: 12,
+      width: 12
+    }
   }
 }
