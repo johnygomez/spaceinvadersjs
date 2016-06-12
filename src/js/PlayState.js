@@ -174,7 +174,7 @@ export default class PlayState extends State {
         try {
           this.shootSound.pause();
           this.shootSound.currentTime = 0;
-        }
+        } catch {}
       }
 
       this.shootSound.play();
@@ -331,7 +331,7 @@ export default class PlayState extends State {
             try {
               this.popSound.pause();
               this.popSound.currentTime = 0;
-            }
+            } catch{}
           }
           this.popSound.play();
           break;
