@@ -1,8 +1,9 @@
 CACHE MANIFEST
-css/styles.css
+css/style.css
 js/3rd.js
 js/app.js
 index.html
+/images/sprite-transparent.png
 
 NETWORK:
 *
