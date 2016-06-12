@@ -1,6 +1,8 @@
 # SPACE INVADERS
 This is an implementation of popular arcade game Space Invaders (1978) in Javascript using Canvas technology.
 
+### [Example](https://www.gamec.sk/spaceinvaders/)
+
 ## Dependencies
 [MaterializeCSS](http://materializecss.com/) - Website UI elements (nav, modals, colors..)
 
