@@ -21,7 +21,7 @@
   "scripts": {
     "pregulp": "npm-run-all clean mkdist",
     "gulp": "gulp",
-    "build": "gulp build",
+    "build": "npm-run-all gulp build watch:lint browserify",
     "server": "cd dist/ && python3 -m http.server 8000",
     "start": "npm-run-all --parallel server watch",
     "browserify": "browserify ./src/js/app.js -t babelify > ./dist/js/app.js",
